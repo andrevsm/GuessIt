@@ -55,19 +55,14 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         binding.gameViewModel = viewModel
-
-        viewModel.score.observe(viewLifecycleOwner, Observer {
-            binding.scoreText.text = viewModel.score.toString()
-        })
-
-        viewModel.word.observe(viewLifecycleOwner, Observer {
-            binding.wordText.text = viewModel.word.value
-        })
+        binding.lifecycleOwner = this
 
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer {
             if(it) {
+                val currentScore = viewModel.score.value ?: 0
+                val action = GameFragmentDirections.actionGameToScore(currentScore)
+                findNavController(this).navigate(action)
                 viewModel.onGameFinishComplete()
-                gameFinished()
             }
         })
 
@@ -77,13 +72,5 @@ class GameFragment : Fragment() {
         })
 
         return binding.root
-    }
-
-    /**
-     * Called when the game is finished
-     */
-    private fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
-        findNavController(this).navigate(action)
     }
 }

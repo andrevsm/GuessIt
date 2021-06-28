@@ -41,18 +41,16 @@ class GameViewModel : ViewModel() {
         resetList()
         nextWord()
         _score.value = 0
-        _eventGameFinish.value = false
-        _word.value = ""
 
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
 
             override fun onTick(millisUntilFinished: Long) {
-                _currentTime.value = DONE
-                _eventGameFinish.value = true
+                _currentTime.value = (millisUntilFinished / ONE_SECOND)
             }
 
             override fun onFinish() {
-                // TODO implement what should happen when the timer finishes
+                _currentTime.value = DONE
+                _eventGameFinish.value = true
             }
         }
 
