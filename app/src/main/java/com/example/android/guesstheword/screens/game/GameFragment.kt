@@ -17,12 +17,10 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -64,11 +62,6 @@ class GameFragment : Fragment() {
                 findNavController(this).navigate(action)
                 viewModel.onGameFinishComplete()
             }
-        })
-
-        viewModel.currentTime.observe(viewLifecycleOwner, Observer { newTime ->
-            binding.timerText.text = DateUtils.formatElapsedTime(newTime)
-
         })
 
         return binding.root
